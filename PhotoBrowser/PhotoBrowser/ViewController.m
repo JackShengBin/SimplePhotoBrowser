@@ -11,6 +11,7 @@
 
 @interface ViewController ()<UICollectionViewDelegateFlowLayout, UICollectionViewDataSource>{
     UICollectionView *_collection;
+    UISwitch *switchBar;
 }
 
 @property (nonatomic, strong) NSMutableArray *arrayM;
@@ -32,13 +33,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    CGSize size = self.view.bounds.size;
+    switchBar = [[UISwitch alloc] initWithFrame:CGRectMake((size.width - 100)/2, 20, 100, 50)];
+    [self.view addSubview:switchBar];
     [self createCollectionView];
 }
 
 static NSString *cellId = @"cellId";
 - (void)createCollectionView{
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    _collection = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+    _collection = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, self.view.bounds.size.height - 200) collectionViewLayout:layout];
     _collection.backgroundColor = [UIColor whiteColor];
     layout.minimumLineSpacing = 10;
     layout.minimumInteritemSpacing = 0;
@@ -61,13 +65,16 @@ static NSString *cellId = @"cellId";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
     PhotoBrowserViewController *photo = [[PhotoBrowserViewController alloc] init];
+    photo.isOriginal = switchBar.isOn;
     photo.images = self.arrayM;
-    photo.isOriginal = YES;
     photo.selectedIndex = (unsigned int)indexPath.row;
     [self presentViewController:photo animated:YES completion:nil];
     
+}
+
+- (void)dealloc{
+    NSLog(@"----------");
 }
 
 - (void)didReceiveMemoryWarning {

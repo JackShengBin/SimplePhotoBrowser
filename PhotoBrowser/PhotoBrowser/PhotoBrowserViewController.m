@@ -58,7 +58,6 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    NSLog(@"%@",scrollView.subviews);
     if(((int)scrollView.contentOffset.x%(int)_size.width) > (_size.width/2)){
         _pageControl.currentPage = (int)scrollView.contentOffset.x / (int)_size.width + 1;
     }else{
